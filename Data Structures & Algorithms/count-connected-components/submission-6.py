@@ -1,0 +1,30 @@
+class Solution:
+    def countComponents(self, n: int, edges: List[List[int]]) -> int:
+        path = defaultdict(list)
+        visited = set()
+        res = 0
+
+        def dfs(node, parent):
+
+            if node not in visited:
+                visited.add(node)
+
+            for nei in path[node]:
+                if nei in visited:
+                    continue
+                if nei == parent:
+                    continue
+                dfs(nei, node)
+
+
+
+        for u, v in edges:
+            path[u].append(v)
+            path[v].append(u)
+
+        for node in range(n):
+            if node not in visited:
+                dfs(node, -1)
+                res += 1
+        
+        return res
